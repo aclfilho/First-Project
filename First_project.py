@@ -4,61 +4,21 @@ import requests
 from tkinter import *
 import matplotlib.pyplot as plt
 import pandas as pd
+from dotenv import load_dotenv
+import os
 
 
+load_dotenv()
 
 def inserir_dados():  # Função que insere os dados no MySQL
     conexao = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='040115',
-        database='treinos'
+        host=os.getenv('DB_HOST'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        database=os.getenv('DB_NAME')
     )
     cursor = conexao.cursor()
-
-    # # Consulta para pegar os treinos da última semana
-    # query = """
-    # SELECT data, distancia, tempo, ritmo, tipo 
-    # FROM treinos
-    # WHERE data >= CURDATE() - INTERVAL 7 DAY
-    # ORDER BY data;
-    # """
-    # cursor.execute(query)
-    
-    # # Transformando os resultados em um DataFrame do pandas
-    # dados = pd.DataFrame(cursor.fetchall(), columns=['data', 'distancia', 'tempo', 'ritmo', 'tipo'])
-    # cursor.close()
-    # conexao.close()
-    
-    # # Converter a coluna 'data' para datetime
-    # dados['data'] = pd.to_datetime(dados['data'])
-    
-    # import matplotlib.pyplot as plt
-
-    # # Plotando o gráfico de Distância
-    # plt.figure(figsize=(10, 6))
-    # plt.plot(dados['data'], dados['distancia'], marker='o', linestyle='-', color='blue', label='Distância (km)')
-    # plt.title('Distância Percorrida ao Longo da Semana')
-    # plt.xlabel('Data')
-    # plt.ylabel('Distância (km)')
-    # plt.grid(True)
-    # plt.xticks(rotation=45)
-    # plt.legend()
-    # plt.tight_layout()
-    # plt.show()
-
-    # # Plotando o gráfico de Ritmo
-    # plt.figure(figsize=(10, 6))
-    # plt.plot(dados['data'], dados['ritmo'], marker='s', linestyle='-', color='orange', label='Ritmo (min/km)')
-    # plt.title('Ritmo Médio ao Longo da Semana')
-    # plt.xlabel('Data')
-    # plt.ylabel('Ritmo (min/km)')
-    # plt.grid(True)
-    # plt.xticks(rotation=45)
-    # plt.legend()
-    # plt.tight_layout()
-    # plt.show()
-        
+       
 # Coletando os dados da interface
     data = entrada_data.get()
     distancia = entrada_distancia.get()
